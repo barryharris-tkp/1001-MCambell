@@ -1,0 +1,197 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/react/Header.tsx';
+import Footer from '../components/astro/Footer.astro';
+import { Card } from '../components/ui/card';
+import { Button } from '../components/ui/button';
+
+// Import logos
+import cgmaLogo from '../assets/logos/cgma-logo.png';
+import aicpaLogo from '../assets/logos/aicpa-logo.png';
+import imaLogo from '../assets/logos/ima-logo.png';
+import tscpaLogo from '../assets/logos/tscpa-logo.png';
+import arcpaLogo from '../assets/logos/arcpa-logo.png';
+
+const currentPath = Astro.url.pathname;
+
+const experienceItems = [
+  "Over 45 years in income tax preparation for individuals and businesses",
+  "Served in various accounting roles in manufacturing and corporate accounting",
+  "Extensive manufacturing cost accounting expertise",
+  "Controllership and CFO positions in manufacturing companies",
+  "Experience implementing software for accounting systems",
+  "Specialization in internal controls and inventory management",
+  "Building ABC costing and product costing configurators",
+  "Implementation and management of standard cost systems"
+];
+
+const industries = [
+  "Retail",
+  "Chemical",
+  "Automotive",
+  "Hollow-Metal",
+  "Non-Profit",
+  "Metal Die Casting",
+  "Distribution"
+];
+---
+
+<BaseLayout title="About | Campbell Tax Services PC">
+  <div class="min-h-screen flex flex-col">
+    <Header currentPath={currentPath} client:load />
+    <main class="flex-1">
+      <!-- Hero -->
+      <section class="py-20 bg-gradient-to-br from-primary to-primary/80 text-primary-foreground">
+        <div class="container mx-auto px-4 text-center">
+          <h1 class="text-5xl md:text-6xl font-bold mb-6">About Campbell Tax Services PC</h1>
+          <p class="text-xl md:text-2xl max-w-3xl mx-auto opacity-95">
+            Four decades of expertise in tax, accounting, and business consulting
+          </p>
+        </div>
+      </section>
+
+      <!-- Experience -->
+      <section class="py-20">
+        <div class="container mx-auto px-4">
+          <div class="max-w-4xl mx-auto">
+            <div class="text-center mb-12">
+              <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-primary mx-auto mb-4"><rect width="20" height="14" x="2" y="7" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+              <h2 class="text-4xl font-bold mb-4">Professional Experience</h2>
+              <p class="text-xl text-muted-foreground">
+                A proven track record spanning multiple industries and specializations
+              </p>
+            </div>
+
+            <div class="rounded-lg border bg-card text-card-foreground shadow-sm p-8 border-2">
+              <ul class="space-y-4">
+                {experienceItems.map((item) => (
+                  <li class="flex items-start gap-3">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6 text-accent flex-shrink-0 mt-0.5"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                    <span class="text-lg">{item}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Education & Credentials -->
+      <section class="py-20 bg-secondary/30">
+        <div class="container mx-auto px-4">
+          <div class="max-w-6xl mx-auto">
+            <div class="grid md:grid-cols-2 gap-8">
+              <!-- Education -->
+              <div class="rounded-lg border bg-card text-card-foreground shadow-sm p-8 border-2">
+                <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-primary mb-4"><path d="M21.42 10.922a1 1 0 0 0-.019-1.838L12.83 5.18a2 2 0 0 0-1.66 0L2.6 9.08a1 1 0 0 0 0 1.832l8.57 3.908a2 2 0 0 0 1.66 0z"/><path d="M22 10v6"/><path d="M6 12.5V16a6 3 0 0 0 12 0v-3.5"/></svg>
+                <h3 class="text-2xl font-bold mb-6">Education</h3>
+                <div class="space-y-6">
+                  <div>
+                    <div class="font-semibold text-lg mb-1">Bachelor of Science in Accounting</div>
+                    <div class="text-muted-foreground">Arkansas State University</div>
+                  </div>
+                  <div>
+                    <div class="font-semibold text-lg mb-1">Master of Business Administration (MBA)</div>
+                    <div class="text-muted-foreground">Union University, Jackson, Tennessee</div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Certifications -->
+              <div class="rounded-lg border bg-card text-card-foreground shadow-sm p-8 border-2">
+                <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-primary mb-4"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                <h3 class="text-2xl font-bold mb-6">Certifications</h3>
+                <div class="space-y-4">
+                  <div>
+                    <div class="font-semibold text-lg">Certified Public Accountant (CPA)</div>
+                    <div class="text-muted-foreground">Arkansas License #3029</div>
+                    <div class="text-muted-foreground">Tennessee License #24882</div>
+                  </div>
+                  <div>
+                    <div class="font-semibold text-lg">Certified Management Accountant (CMA)</div>
+                    <div class="text-muted-foreground">Certificate #7202</div>
+                  </div>
+                  <div>
+                    <div class="font-semibold text-lg">Certified Global Management Accountant (CGMA)</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Industry Experience -->
+      <section class="py-20">
+        <div class="container mx-auto px-4">
+          <div class="max-w-4xl mx-auto">
+            <div class="text-center mb-12">
+              <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-primary mx-auto mb-4"><path d="M2 20a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8l-7 5V8l-7 5V4a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2Z"/><path d="M17 18h1"/><path d="M12 18h1"/><path d="M7 18h1"/></svg>
+              <h2 class="text-4xl font-bold mb-4">Industry Experience</h2>
+              <p class="text-xl text-muted-foreground">
+                Extensive experience across diverse industries
+              </p>
+            </div>
+
+            <div class="rounded-lg border bg-card text-card-foreground shadow-sm p-8 border-2">
+              <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+                {industries.map((industry) => (
+                  <div class="flex items-center gap-3">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-accent flex-shrink-0"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                    <span class="text-lg">{industry}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Memberships -->
+      <section class="py-20 bg-secondary/30">
+        <div class="container mx-auto px-4">
+          <div class="max-w-4xl mx-auto text-center">
+            <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-primary mx-auto mb-4"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/></svg>
+            <h2 class="text-4xl font-bold mb-8">Professional Memberships</h2>
+            <div class="rounded-lg border bg-card text-card-foreground shadow-sm p-8 border-2">
+              <div class="grid md:grid-cols-2 gap-6 mb-10">
+                <div class="text-lg">American Institute of Certified Public Accountants</div>
+                <div class="text-lg">Arkansas Society of Certified Public Accountants</div>
+                <div class="text-lg">Tennessee Society of Certified Public Accountants</div>
+                <div class="text-lg">Institute of Management Accountants</div>
+              </div>
+
+              <!-- Partner Logos -->
+              <div class="border-t pt-8">
+                <p class="text-muted-foreground mb-6">Proud Member Of</p>
+                <div class="flex flex-wrap items-center justify-center gap-8">
+                  <img src={aicpaLogo.src} alt="AICPA - American Institute of CPAs" class="h-12 object-contain" />
+                  <img src={cgmaLogo.src} alt="CGMA - Chartered Global Management Accountant" class="h-12 object-contain" />
+                  <img src={imaLogo.src} alt="IMA - Institute of Management Accountants" class="h-12 object-contain" />
+                  <img src={tscpaLogo.src} alt="TSCPA - Tennessee Society of CPAs" class="h-12 object-contain" />
+                  <img src={arcpaLogo.src} alt="ARCPA - Arkansas Society of Certified Public Accountants" class="h-12 object-contain" />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- CTA -->
+      <section class="py-20 bg-primary text-primary-foreground">
+        <div class="container mx-auto px-4 text-center">
+          <h2 class="text-4xl font-bold mb-6">
+            Experience You Can Trust
+          </h2>
+          <p class="text-xl mb-8 opacity-95 max-w-2xl mx-auto">
+            Let's put decades of expertise to work for you. Contact us today to discuss your financial needs.
+          </p>
+          <a href="/contact" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium bg-accent text-accent-foreground hover:bg-accent/90 shadow-md hover:shadow-lg font-semibold transition-all h-11 px-8">
+            Contact Us
+          </a>
+        </div>
+      </section>
+    </main>
+    <Footer />
+  </div>
+</BaseLayout>

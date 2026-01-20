@@ -1,0 +1,187 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/react/Header.tsx';
+import Footer from '../components/astro/Footer.astro';
+
+const currentPath = Astro.url.pathname;
+
+const taxServices = [
+  "Individual Tax Returns",
+  "Partnership Returns",
+  "Corporate Returns (C-Corp)",
+  "S-Corporation Returns",
+  "Limited Liability Companies (LLCs)",
+  "Estate Tax Returns",
+  "Trust Tax Returns",
+  "Exempt Organizations (501c3)",
+  "Multi-State Business Returns",
+  "Multi-State Individual Returns",
+  "Tax Planning & Strategy",
+  "IRS Representation"
+];
+
+const accountingServices = [
+  "Full-Service Bookkeeping",
+  "Payroll Processing & Management",
+  "Account Reconciliations",
+  "Financial Statement Preparation",
+  "Monthly Financial Reports",
+  "Quarterly Financial Analysis",
+  "Year-End Closing Services",
+  "Cash Flow Management",
+  "Budget Preparation",
+  "QuickBooks Setup & Support"
+];
+
+const consultingServices = [
+  "Cost Accounting Systems",
+  "Manufacturers Cost Configuration Models",
+  "Inventory Management & Valuation",
+  "Internal Control Development",
+  "Operations Performance Measures",
+  "Product Costing Configurator",
+  "ABC Costing Implementation",
+  "Standard Cost Systems",
+  "Manufacturing Accounting",
+  "Business Process Improvement",
+  "Financial Systems Implementation",
+  "CFO Services",
+  "Strategic Planning"
+];
+---
+
+<BaseLayout title="Services | Campbell Tax Services PC">
+  <div class="min-h-screen flex flex-col">
+    <Header currentPath={currentPath} client:load />
+    <main class="flex-1">
+      <!-- Hero Section -->
+      <section class="py-20 bg-gradient-to-br from-primary to-primary/80 text-primary-foreground">
+        <div class="container mx-auto px-4 text-center">
+          <h1 class="text-5xl md:text-6xl font-bold mb-6">Our Services</h1>
+          <p class="text-xl md:text-2xl max-w-3xl mx-auto opacity-95">
+            Comprehensive financial solutions designed to help individuals and businesses thrive
+          </p>
+        </div>
+      </section>
+
+      <!-- Tax Services -->
+      <section class="py-20">
+        <div class="container mx-auto px-4">
+          <div class="max-w-5xl mx-auto">
+            <div class="rounded-lg border bg-card text-card-foreground shadow-xl border-2">
+              <div class="flex flex-col space-y-1.5 p-6 pb-8">
+                <div class="flex items-start gap-4">
+                  <div class="w-16 h-16 rounded-xl bg-primary/10 flex items-center justify-center flex-shrink-0">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-primary"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/></svg>
+                  </div>
+                  <div class="flex-1">
+                    <h3 class="text-3xl font-semibold leading-none tracking-tight mb-3">Tax Services</h3>
+                    <p class="text-base text-muted-foreground">
+                      Expert tax preparation, planning, and representation for individuals and all types of business entities.
+                      With over 45 years of experience, we ensure accurate filings and maximum tax efficiency.
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div class="p-6 pt-0">
+                <div class="grid md:grid-cols-2 gap-4">
+                  {taxServices.map((service) => (
+                    <div class="flex items-start gap-3">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-accent flex-shrink-0 mt-0.5"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                      <span>{service}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Accounting Services -->
+      <section class="py-20 bg-secondary/30">
+        <div class="container mx-auto px-4">
+          <div class="max-w-5xl mx-auto">
+            <div class="rounded-lg border bg-card text-card-foreground shadow-xl border-2">
+              <div class="flex flex-col space-y-1.5 p-6 pb-8">
+                <div class="flex items-start gap-4">
+                  <div class="w-16 h-16 rounded-xl bg-primary/10 flex items-center justify-center flex-shrink-0">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-primary"><rect width="16" height="20" x="4" y="2" rx="2"/><line x1="8" x2="16" y1="6" y2="6"/><line x1="16" x2="16" y1="14" y2="18"/><path d="M16 10h.01"/><path d="M12 10h.01"/><path d="M8 10h.01"/><path d="M12 14h.01"/><path d="M8 14h.01"/><path d="M12 18h.01"/><path d="M8 18h.01"/></svg>
+                  </div>
+                  <div class="flex-1">
+                    <h3 class="text-3xl font-semibold leading-none tracking-tight mb-3">Accounting Services</h3>
+                    <p class="text-base text-muted-foreground">
+                      Professional bookkeeping and accounting services to maintain accurate financial records
+                      and provide the insights you need to make informed business decisions.
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div class="p-6 pt-0">
+                <div class="grid md:grid-cols-2 gap-4">
+                  {accountingServices.map((service) => (
+                    <div class="flex items-start gap-3">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-accent flex-shrink-0 mt-0.5"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                      <span>{service}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Consulting Services -->
+      <section class="py-20">
+        <div class="container mx-auto px-4">
+          <div class="max-w-5xl mx-auto">
+            <div class="rounded-lg border bg-card text-card-foreground shadow-xl border-2">
+              <div class="flex flex-col space-y-1.5 p-6 pb-8">
+                <div class="flex items-start gap-4">
+                  <div class="w-16 h-16 rounded-xl bg-primary/10 flex items-center justify-center flex-shrink-0">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-primary"><line x1="12" x2="12" y1="20" y2="10"/><line x1="18" x2="18" y1="20" y2="4"/><line x1="6" x2="6" y1="20" y2="16"/></svg>
+                  </div>
+                  <div class="flex-1">
+                    <h3 class="text-3xl font-semibold leading-none tracking-tight mb-3">Consulting Services</h3>
+                    <p class="text-base text-muted-foreground">
+                      Strategic business consulting leveraging extensive experience in manufacturing cost accounting,
+                      controllership, and CFO-level operations to optimize your business performance.
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div class="p-6 pt-0">
+                <div class="grid md:grid-cols-2 gap-4">
+                  {consultingServices.map((service) => (
+                    <div class="flex items-start gap-3">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-accent flex-shrink-0 mt-0.5"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                      <span>{service}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- CTA -->
+      <section class="py-20 bg-primary text-primary-foreground">
+        <div class="container mx-auto px-4 text-center">
+          <h2 class="text-4xl font-bold mb-6">
+            Let's Discuss Your Needs
+          </h2>
+          <p class="text-xl mb-8 opacity-95 max-w-2xl mx-auto">
+            Every business is unique. Contact us to discuss how our services can be tailored to your specific situation.
+          </p>
+          <a href="/contact" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium bg-accent text-accent-foreground hover:bg-accent/90 shadow-md hover:shadow-lg font-semibold transition-all h-11 px-8">
+            Get in Touch
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+          </a>
+        </div>
+      </section>
+    </main>
+    <Footer />
+  </div>
+</BaseLayout>

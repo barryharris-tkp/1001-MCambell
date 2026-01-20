@@ -1,0 +1,120 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/react/Header.tsx';
+import Footer from '../components/astro/Footer.astro';
+import Hero from '../components/react/Hero.tsx';
+import ServicesSection from '../components/react/ServicesSection.tsx';
+import CredentialsSection from '../components/react/CredentialsSection.tsx';
+import AmbientAudio from '../components/react/AmbientAudio.tsx';
+import mountainRiver from '../assets/mountain-river.jpg';
+
+const currentPath = Astro.url.pathname;
+---
+
+<BaseLayout title="Campbell Tax Services PC | Expert Tax & Accounting Services">
+  <AmbientAudio client:idle />
+  <div class="min-h-screen flex flex-col relative">
+    <!-- Fixed nature background with parallax - handled by inline script -->
+    <div class="fixed inset-0 -z-10 overflow-hidden" id="parallax-bg">
+      <img
+        src={mountainRiver.src}
+        alt=""
+        class="w-full h-[120%] object-cover will-change-transform transition-transform duration-100"
+        id="parallax-img"
+        aria-hidden="true"
+      />
+      <!-- Animated mist overlay -->
+      <div class="absolute inset-0 pointer-events-none">
+        <div
+          class="absolute inset-0 bg-gradient-to-r from-white/5 via-transparent to-white/5 animate-mist-drift"
+          style="animation-duration: 30s"
+        ></div>
+        <div
+          class="absolute inset-0 bg-gradient-to-l from-white/3 via-transparent to-white/3 animate-mist-drift"
+          style="animation-duration: 40s; animation-delay: -15s"
+        ></div>
+      </div>
+      <!-- Bottom gradient for content transition -->
+      <div class="absolute inset-0 bg-gradient-to-b from-transparent via-transparent via-60% to-background/95"></div>
+    </div>
+
+    <Header currentPath={currentPath} client:load />
+    <main class="flex-1 relative z-10">
+      <Hero client:load />
+      <ServicesSection client:visible />
+      <CredentialsSection client:visible />
+
+      <!-- CTA Section with glass effect -->
+      <section class="py-24 relative overflow-hidden" id="cta-section">
+        <!-- Glass background -->
+        <div class="absolute inset-0 glass-dark"></div>
+
+        <div class="container mx-auto px-4 text-center relative z-10">
+          <h2 class="text-4xl md:text-5xl font-bold mb-6 text-white cta-animate opacity-0 translate-y-8">
+            Ready to Get Started?
+          </h2>
+          <p class="text-xl mb-8 text-white/90 max-w-2xl mx-auto cta-animate opacity-0 translate-y-8 delay-150">
+            Let's discuss how we can help you achieve your financial goals. Schedule a consultation today.
+          </p>
+          <a
+            href="/contact"
+            class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-lg font-medium bg-accent text-accent-foreground hover:bg-accent/90 shadow-md hover:shadow-lg font-semibold transition-all px-8 py-6 hover:scale-105 cta-animate opacity-0 translate-y-8 delay-300"
+          >
+            Schedule Consultation
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+          </a>
+        </div>
+      </section>
+    </main>
+    <Footer />
+  </div>
+
+  <script>
+    // Parallax effect for background image
+    const parallaxImg = document.getElementById('parallax-img') as HTMLImageElement;
+
+    function updateParallax() {
+      const scrollY = window.scrollY;
+      if (parallaxImg) {
+        parallaxImg.style.transform = `translateY(${scrollY * 0.15}px) scale(1.1)`;
+      }
+    }
+
+    window.addEventListener('scroll', updateParallax, { passive: true });
+
+    // CTA section animation on scroll
+    const ctaSection = document.getElementById('cta-section');
+    const ctaAnimates = document.querySelectorAll('.cta-animate');
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            ctaAnimates.forEach((el) => {
+              el.classList.remove('opacity-0', 'translate-y-8');
+              el.classList.add('opacity-100', 'translate-y-0');
+            });
+            observer.disconnect();
+          }
+        });
+      },
+      { threshold: 0.2 }
+    );
+
+    if (ctaSection) {
+      observer.observe(ctaSection);
+    }
+  </script>
+
+  <style>
+    .cta-animate {
+      transition: all 0.7s ease-out;
+    }
+    .delay-150 {
+      transition-delay: 150ms;
+    }
+    .delay-300 {
+      transition-delay: 300ms;
+    }
+  </style>
+</BaseLayout>

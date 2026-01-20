@@ -1,0 +1,106 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/react/Header.tsx';
+import Footer from '../components/astro/Footer.astro';
+import ContactForm from '../components/react/ContactForm.tsx';
+
+const currentPath = Astro.url.pathname;
+---
+
+<BaseLayout title="Contact | Campbell Tax Services PC">
+  <div class="min-h-screen flex flex-col">
+    <Header currentPath={currentPath} client:load />
+    <main class="flex-1">
+      <!-- Hero -->
+      <section class="py-20 bg-gradient-to-br from-primary to-primary/80 text-primary-foreground">
+        <div class="container mx-auto px-4 text-center">
+          <h1 class="text-5xl md:text-6xl font-bold mb-6">Contact Us</h1>
+          <p class="text-xl md:text-2xl max-w-3xl mx-auto opacity-95">
+            Let's discuss how we can help you achieve your financial goals
+          </p>
+        </div>
+      </section>
+
+      <!-- Contact Section -->
+      <section class="py-20">
+        <div class="container mx-auto px-4">
+          <div class="max-w-6xl mx-auto grid lg:grid-cols-3 gap-8">
+            <!-- Contact Form -->
+            <div class="lg:col-span-2">
+              <ContactForm client:load />
+            </div>
+
+            <!-- Contact Information -->
+            <div class="space-y-6">
+              <div class="rounded-lg border bg-card text-card-foreground shadow-sm border-2">
+                <div class="flex flex-col space-y-1.5 p-6">
+                  <h3 class="text-2xl font-semibold leading-none tracking-tight">Contact Information</h3>
+                </div>
+                <div class="p-6 pt-0 space-y-6">
+                  <div class="flex items-start gap-3">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-primary flex-shrink-0 mt-1"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+                    <div>
+                      <div class="font-semibold mb-1">Email</div>
+                      <a href="mailto:Michael.campbell@cpa.com" class="text-muted-foreground hover:text-accent transition-colors">
+                        Michael.campbell@cpa.com
+                      </a>
+                    </div>
+                  </div>
+
+                  <div class="flex items-start gap-3">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-primary flex-shrink-0 mt-1"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                    <div>
+                      <div class="font-semibold mb-1">Phone</div>
+                      <a href="tel:7312677702" class="text-muted-foreground hover:text-accent transition-colors">
+                        (731) 267-7702
+                      </a>
+                    </div>
+                  </div>
+
+                  <div class="flex items-start gap-3">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-primary flex-shrink-0 mt-1"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+                    <div>
+                      <div class="font-semibold mb-1">Office Address</div>
+                      <div class="text-muted-foreground">
+                        173 Stanley Drive<br />
+                        Gallatin, TN 37066
+                      </div>
+                      <div class="text-muted-foreground mt-2">
+                        <span class="font-medium">Mailing:</span><br />
+                        PO Box 1855<br />
+                        Gallatin, TN 37066
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="flex items-start gap-3">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-primary flex-shrink-0 mt-1"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                    <div>
+                      <div class="font-semibold mb-1">Business Hours</div>
+                      <div class="text-muted-foreground">
+                        Monday - Friday<br />
+                        8:00 AM - 5:00 PM CST
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="rounded-lg border bg-primary text-primary-foreground shadow-sm border-2">
+                <div class="p-6">
+                  <h3 class="font-semibold text-lg mb-2">Licensed CPA</h3>
+                  <div class="space-y-1 text-sm opacity-90">
+                    <p>Arkansas License #3029</p>
+                    <p>Tennessee License #24882</p>
+                    <p class="pt-2">CMA #7202 | CGMA</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+    <Footer />
+  </div>
+</BaseLayout>

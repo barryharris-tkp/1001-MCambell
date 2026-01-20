@@ -1,0 +1,188 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/react/Header.tsx';
+import Footer from '../components/astro/Footer.astro';
+
+const currentPath = Astro.url.pathname;
+
+const resources = [
+  {
+    title: "Taxpayer Checklist",
+    description: "Essential documents and information needed for tax preparation",
+    type: "Download",
+    link: null
+  },
+  {
+    title: "Checklist for Ministers",
+    description: "Special tax considerations for clergy and ministers",
+    type: "Download",
+    link: null
+  },
+  {
+    title: "Tax Calendar",
+    description: "Important tax deadlines and filing dates for 2024",
+    type: "Guide",
+    link: null
+  },
+  {
+    title: "Per Diem Rates",
+    description: "Current federal per diem rates for business travel",
+    type: "External",
+    link: "https://www.gsa.gov/travel/plan-book/per-diem-rates"
+  },
+  {
+    title: "IRS Resources",
+    description: "Direct access to official IRS forms, publications, and guidance",
+    type: "External",
+    link: "https://www.irs.gov"
+  },
+  {
+    title: "IRS News & Updates",
+    description: "Latest tax law changes and IRS announcements",
+    type: "External",
+    link: "https://www.irs.gov/newsroom"
+  }
+];
+
+const faqs = [
+  {
+    question: "What documents do I need for tax preparation?",
+    answer: "You'll need W-2s, 1099s, receipts for deductions, prior year returns, and documentation for any major life changes. Download our Taxpayer Checklist for a complete list."
+  },
+  {
+    question: "When should I start preparing my taxes?",
+    answer: "It's best to start gathering documents in January. Early preparation ensures accuracy and gives you time to address any issues before the deadline."
+  },
+  {
+    question: "Do you handle multi-state returns?",
+    answer: "Yes, we have extensive experience preparing multi-state returns for both individuals and businesses."
+  }
+];
+---
+
+<BaseLayout title="Resources | Campbell Tax Services PC">
+  <div class="min-h-screen flex flex-col">
+    <Header currentPath={currentPath} client:load />
+    <main class="flex-1">
+      <!-- Hero -->
+      <section class="py-20 bg-gradient-to-br from-primary to-primary/80 text-primary-foreground">
+        <div class="container mx-auto px-4 text-center">
+          <h1 class="text-5xl md:text-6xl font-bold mb-6">Client Resources</h1>
+          <p class="text-xl md:text-2xl max-w-3xl mx-auto opacity-95">
+            Helpful tools, checklists, and information to support your financial success
+          </p>
+        </div>
+      </section>
+
+      <!-- Resources Grid -->
+      <section class="py-20">
+        <div class="container mx-auto px-4">
+          <div class="max-w-6xl mx-auto">
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {resources.map((resource, idx) => (
+                <div class="rounded-lg border bg-card text-card-foreground shadow-sm border-2 hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
+                  <div class="flex flex-col space-y-1.5 p-6">
+                    <div class="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center mb-3">
+                      {idx < 3 ? (
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-primary"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/></svg>
+                      ) : idx === 3 ? (
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-primary"><line x1="12" x2="12" y1="2" y2="22"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+                      ) : (
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-primary"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/></svg>
+                      )}
+                    </div>
+                    <h3 class="text-xl font-semibold leading-none tracking-tight">{resource.title}</h3>
+                    <p class="text-sm text-muted-foreground">{resource.description}</p>
+                  </div>
+                  <div class="p-6 pt-0">
+                    <div class="flex items-center justify-between">
+                      <span class="text-sm text-muted-foreground">{resource.type}</span>
+                      {resource.link ? (
+                        <a href={resource.link} target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium border-2 border-primary bg-transparent text-primary hover:bg-primary hover:text-primary-foreground transition-all h-9 px-3">
+                          Visit
+                          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" x2="21" y1="14" y2="3"/></svg>
+                        </a>
+                      ) : (
+                        <button class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium border-2 border-primary bg-transparent text-primary hover:bg-primary hover:text-primary-foreground transition-all h-9 px-3">
+                          Download
+                        </button>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Important Dates -->
+      <section class="py-20 bg-secondary/30">
+        <div class="container mx-auto px-4">
+          <div class="max-w-4xl mx-auto">
+            <h2 class="text-4xl font-bold mb-8 text-center">Important Tax Dates 2026</h2>
+            <div class="rounded-lg border bg-card text-card-foreground shadow-sm border-2">
+              <div class="p-8">
+                <div class="grid md:grid-cols-2 gap-6">
+                  <div class="space-y-2">
+                    <div class="font-semibold text-lg">April 15, 2026</div>
+                    <div class="text-muted-foreground">Individual tax returns (Form 1040) due</div>
+                  </div>
+                  <div class="space-y-2">
+                    <div class="font-semibold text-lg">March 16, 2026</div>
+                    <div class="text-muted-foreground">Partnership & S-Corp returns due (March 15 falls on Sunday)</div>
+                  </div>
+                  <div class="space-y-2">
+                    <div class="font-semibold text-lg">October 15, 2026</div>
+                    <div class="text-muted-foreground">Extended individual returns due</div>
+                  </div>
+                  <div class="space-y-2">
+                    <div class="font-semibold text-lg">Quarterly Dates</div>
+                    <div class="text-muted-foreground">Estimated tax payments: Apr 15, Jun 15, Sep 15, Jan 15</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- FAQ Section -->
+      <section class="py-20">
+        <div class="container mx-auto px-4">
+          <div class="max-w-4xl mx-auto">
+            <h2 class="text-4xl font-bold mb-8 text-center">Frequently Asked Questions</h2>
+            <div class="space-y-4">
+              {faqs.map((faq) => (
+                <div class="rounded-lg border bg-card text-card-foreground shadow-sm border-2">
+                  <div class="flex flex-col space-y-1.5 p-6">
+                    <h3 class="text-2xl font-semibold leading-none tracking-tight">{faq.question}</h3>
+                  </div>
+                  <div class="p-6 pt-0 text-muted-foreground">
+                    {faq.answer}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- CTA -->
+      <section class="py-20 bg-primary text-primary-foreground">
+        <div class="container mx-auto px-4 text-center">
+          <h2 class="text-4xl font-bold mb-6">
+            Need Personalized Guidance?
+          </h2>
+          <p class="text-xl mb-8 opacity-95 max-w-2xl mx-auto">
+            Contact us for personalized advice and support for your unique financial situation.
+          </p>
+          <a href="/contact" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium bg-accent text-accent-foreground hover:bg-accent/90 shadow-md hover:shadow-lg font-semibold transition-all h-11 px-8">
+            Get in Touch
+          </a>
+        </div>
+      </section>
+    </main>
+    <Footer />
+  </div>
+</BaseLayout>
