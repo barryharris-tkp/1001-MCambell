@@ -147,6 +147,7 @@ const Hero = () => {
 
       {/* Content with parallax */}
       <motion.div
+        id="hero-content"
         className="relative z-10 container mx-auto px-4 text-center"
         style={{ y: contentY }}
       >
@@ -161,56 +162,28 @@ const Hero = () => {
             className="text-accent text-base md:text-lg lg:text-xl tracking-[0.3em] uppercase mb-8 font-medium drop-shadow-[0_2px_4px_rgba(0,0,0,0.3)]"
             variants={itemVariants}
           >
-            Professional Excellence Since 1980
+            <span className="bg-black/40 px-4 py-1 rounded-sm">Professional Excellence Since 1980</span>
           </motion.p>
 
-          {/* Animated title - line 1 with enhanced hover */}
+          {/* Animated title - line 1 */}
           <motion.h1
-            className="font-playfair text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-2 leading-relaxed cursor-default py-2"
+            className="font-playfair text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-2 leading-relaxed py-2"
             variants={titleVariants}
-            style={{ perspective: 1000 }}
           >
-            <motion.span
-              className="inline-block"
-              whileHover={{
-                scale: 1.08,
-                y: -5,
-              }}
-              transition={{ duration: 0.3, ease: "easeOut" }}
-            >
+            <span className="inline-block bg-black/40 px-5 py-1 rounded-sm">
               {title1}
-            </motion.span>
+            </span>
           </motion.h1>
 
-          {/* Animated title - line 2 with accent and enhanced hover */}
+          {/* Animated title - line 2 with accent */}
           <motion.h1
-            className="font-playfair text-4xl md:text-6xl lg:text-7xl font-bold mb-8 leading-tight cursor-default"
+            className="font-playfair text-4xl md:text-6xl lg:text-7xl font-bold mb-8 leading-tight"
             variants={titleVariants}
-            style={{ perspective: 1000 }}
           >
-            <motion.span
-              className="inline-block text-accent"
-              whileHover={{
-                scale: 1.1,
-                y: -8,
-                rotate: -2,
-              }}
-              transition={{ duration: 0.3, ease: "easeOut" }}
-            >
+            <span className="inline-block text-accent bg-black/40 px-5 py-1 rounded-sm">
               {title2}
-            </motion.span>
+            </span>
           </motion.h1>
-
-          <motion.p
-            className="text-white text-lg md:text-xl mb-12 max-w-2xl mx-auto font-light leading-relaxed"
-            variants={itemVariants}
-            whileHover={{ scale: 1.02 }}
-            transition={{ duration: 0.3 }}
-          >
-            Expert CPA services for individuals and businesses.
-            <br className="hidden md:block" />
-            45+ years of dedicated professional experience.
-          </motion.p>
 
           <motion.div
             className="flex flex-col sm:flex-row gap-5 justify-center"
@@ -268,6 +241,7 @@ const Hero = () => {
 
       {/* Enhanced scroll indicator */}
       <motion.button
+        id="hero-scroll-indicator"
         onClick={scrollToContent}
         className="absolute bottom-10 left-1/2 -translate-x-1/2 z-10 text-white/60 hover:text-white transition-colors cursor-pointer group"
         aria-label="Scroll to content"
