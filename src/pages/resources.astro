@@ -10,19 +10,22 @@ const resources = [
     title: "Taxpayer Checklist",
     description: "Essential documents and information needed for tax preparation",
     type: "Download",
-    link: null
+    link: "https://drive.google.com/file/d/1Iq6PsfpubOqNfc1M8JBG0S7PS6UuM8ch/view?usp=sharing",
+    link2: "https://docs.google.com/document/d/1hGBLcIGAqg5NlTTlkP12yjiLVwoXc5fW/edit?usp=sharing&ouid=110322518771482896004&rtpof=true&sd=true"
   },
   {
     title: "Checklist for Ministers",
     description: "Special tax considerations for clergy and ministers",
     type: "Download",
-    link: null
+    link: "https://drive.google.com/file/d/1RYzS246b2a1cUEOYotZWdh7z74kYd-PF/view?usp=sharing",
+    link2: "https://docs.google.com/document/d/1CGVomsMEbMD_biqbzhgRrYepg-5ZnawP/edit?usp=sharing&ouid=110322518771482896004&rtpof=true&sd=true"
   },
   {
     title: "Tax Calendar",
     description: "Important tax deadlines and filing dates for 2024",
     type: "Guide",
-    link: null
+    link: "https://drive.google.com/file/d/1RYzS246b2a1cUEOYotZWdh7z74kYd-PF/view?usp=sharing",
+    link2: "https://docs.google.com/document/d/1FldTnZaQc_NUDfedAxnAx9QNJeZqBsO0/edit?usp=sharing&ouid=110322518771482896004&rtpof=true&sd=true"
   },
   {
     title: "Per Diem Rates",
@@ -97,7 +100,18 @@ const faqs = [
                   <div class="p-6 pt-0">
                     <div class="flex items-center justify-between">
                       <span class="text-sm text-muted-foreground">{resource.type}</span>
-                      {resource.link ? (
+                      {resource.link && resource.link2 ? (
+                        <div class="flex gap-2">
+                          <a href={resource.link} target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium border-2 border-primary bg-transparent text-primary hover:bg-primary hover:text-primary-foreground transition-all h-9 px-3">
+                            PDF
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" x2="21" y1="14" y2="3"/></svg>
+                          </a>
+                          <a href={resource.link2} target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium border-2 border-primary bg-transparent text-primary hover:bg-primary hover:text-primary-foreground transition-all h-9 px-3">
+                            Word
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" x2="21" y1="14" y2="3"/></svg>
+                          </a>
+                        </div>
+                      ) : resource.link ? (
                         <a href={resource.link} target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium border-2 border-primary bg-transparent text-primary hover:bg-primary hover:text-primary-foreground transition-all h-9 px-3">
                           Visit
                           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" x2="21" y1="14" y2="3"/></svg>

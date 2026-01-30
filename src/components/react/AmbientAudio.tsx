@@ -4,7 +4,8 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Slider } from "@/components/ui/slider";
 import { cn } from "@/lib/utils";
 
-const MEDITATION_DURATION = 60_000;
+const MEDITATION_DURATION = 30_000;
+const RAMP_DURATION = 5_000; // volume fade-in over 5 seconds
 
 // Pill dimensions
 const PILL_W = 104;
@@ -88,8 +89,11 @@ const AmbientAudio = () => {
   const [isMeditating, setIsMeditating] = useState(false);
   const [meditationProgress, setMeditationProgress] = useState(0);
   const audioRef = useRef<HTMLAudioElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
   const meditationTimerRef = useRef<number | null>(null);
   const meditationStartRef = useRef<number>(0);
+  const volumeRampRef = useRef<number | null>(null);
+  const rampStartRef = useRef<number>(0);
 
   useEffect(() => {
     if (audioRef.current) {
@@ -99,7 +103,7 @@ const AmbientAudio = () => {
   }, []);
 
   useEffect(() => {
-    if (audioRef.current) {
+    if (audioRef.current && volumeRampRef.current === null) {
       audioRef.current.volume = volume / 100;
     }
   }, [volume]);
@@ -108,8 +112,10 @@ const AmbientAudio = () => {
     if (audioRef.current) {
       if (isPlaying) {
         audioRef.current.pause();
+        setShowVolumeSlider(false);
       } else {
         audioRef.current.play();
+        setShowVolumeSlider(true);
       }
       setIsPlaying(!isPlaying);
     }
@@ -131,20 +137,59 @@ const AmbientAudio = () => {
     }
   };
 
+  const cancelVolumeRamp = useCallback(() => {
+    if (volumeRampRef.current !== null) {
+      cancelAnimationFrame(volumeRampRef.current);
+      volumeRampRef.current = null;
+    }
+  }, []);
+
+  const rampVolumeUp = useCallback(() => {
+    if (!audioRef.current) return;
+    const targetVolume = volume / 100;
+    audioRef.current.volume = 0;
+    rampStartRef.current = Date.now();
+
+    const tick = () => {
+      if (!audioRef.current) {
+        volumeRampRef.current = null;
+        return;
+      }
+      const elapsed = Date.now() - rampStartRef.current;
+      const t = Math.min(elapsed / RAMP_DURATION, 1);
+      audioRef.current.volume = t * targetVolume;
+
+      if (t < 1) {
+        volumeRampRef.current = requestAnimationFrame(tick);
+      } else {
+        volumeRampRef.current = null;
+      }
+    };
+
+    volumeRampRef.current = requestAnimationFrame(tick);
+  }, [volume]);
+
   const endMeditation = useCallback(() => {
     setIsMeditating(false);
     setMeditationProgress(0);
+    cancelVolumeRamp();
+    if (audioRef.current) {
+      audioRef.current.volume = volume / 100;
+    }
     if (meditationTimerRef.current !== null) {
       cancelAnimationFrame(meditationTimerRef.current);
       meditationTimerRef.current = null;
     }
-  }, []);
+  }, [cancelVolumeRamp, volume]);
 
   const startMeditation = useCallback(() => {
-    // Auto-start audio if not playing
+    // Auto-start audio if not playing, with volume ramp
     if (audioRef.current && !isPlaying) {
+      audioRef.current.volume = 0;
       audioRef.current.play();
       setIsPlaying(true);
+      setShowVolumeSlider(true);
+      rampVolumeUp();
     }
 
     setIsMeditating(true);
@@ -167,7 +212,7 @@ const AmbientAudio = () => {
     };
 
     meditationTimerRef.current = requestAnimationFrame(tick);
-  }, [isPlaying]);
+  }, [isPlaying, rampVolumeUp]);
 
   const toggleMeditation = useCallback(() => {
     if (isMeditating) {
@@ -198,11 +243,31 @@ const AmbientAudio = () => {
     };
   }, [isMeditating]);
 
+  // Click-outside handler to dismiss the volume slider
+  useEffect(() => {
+    if (!showVolumeSlider) return;
+
+    const handleMouseDown = (e: MouseEvent) => {
+      if (
+        containerRef.current &&
+        !containerRef.current.contains(e.target as Node)
+      ) {
+        setShowVolumeSlider(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleMouseDown);
+    return () => document.removeEventListener("mousedown", handleMouseDown);
+  }, [showVolumeSlider]);
+
   // Cleanup on unmount
   useEffect(() => {
     return () => {
       if (meditationTimerRef.current !== null) {
         cancelAnimationFrame(meditationTimerRef.current);
+      }
+      if (volumeRampRef.current !== null) {
+        cancelAnimationFrame(volumeRampRef.current);
       }
       // Restore hero content visibility on unmount
       const content = document.getElementById("hero-content");
@@ -227,12 +292,11 @@ const AmbientAudio = () => {
 
       {/* Pill container */}
       <div
+        ref={containerRef}
         className={cn(
           "fixed bottom-6 right-6 flex flex-col items-end gap-2",
           isMeditating ? "z-[70]" : "z-50"
         )}
-        onMouseEnter={() => isPlaying && setShowVolumeSlider(true)}
-        onMouseLeave={() => setShowVolumeSlider(false)}
       >
         {/* Meditation verse — small text above pill */}
         <AnimatePresence>
@@ -324,7 +388,7 @@ const AmbientAudio = () => {
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               aria-label={
-                isMeditating ? "End meditation" : "Start 1-minute meditation"
+                isMeditating ? "End meditation" : "Start 30-second meditation"
               }
             >
               <Flower2
@@ -346,7 +410,7 @@ const AmbientAudio = () => {
                 transition={{ duration: 0.2 }}
                 className="absolute -top-12 right-0 whitespace-nowrap rounded-md bg-background/90 backdrop-blur-md border border-border px-3 py-1.5 text-xs text-muted-foreground shadow-lg pointer-events-none"
               >
-                Take a breath. Meditate for one minute.
+                Take a breath. Meditate for 30 seconds.
               </motion.div>
             )}
           </AnimatePresence>
