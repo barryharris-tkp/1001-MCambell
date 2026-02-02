@@ -159,28 +159,28 @@ const Hero = () => {
           variants={containerVariants}
         >
           <motion.p
-            className="text-accent text-base md:text-lg lg:text-xl tracking-[0.3em] uppercase mb-8 font-medium drop-shadow-[0_2px_4px_rgba(0,0,0,0.3)]"
+            className="text-accent text-base md:text-lg lg:text-xl tracking-[0.3em] uppercase mb-5 md:mb-8 font-medium drop-shadow-[0_2px_4px_rgba(0,0,0,0.3)]"
             variants={itemVariants}
           >
-            <span className="bg-black/40 px-4 py-1 rounded-sm">Professional Excellence Since 1980</span>
+            <span className="bg-black/40 px-3 md:px-4 py-0 md:py-1 rounded-sm">Professional Excellence Since 1980</span>
           </motion.p>
 
           {/* Animated title - line 1 */}
           <motion.h1
-            className="font-playfair text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-2 leading-relaxed py-2"
+            className="font-playfair text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-4 md:mb-2 leading-normal md:leading-relaxed py-0 md:py-2"
             variants={titleVariants}
           >
-            <span className="inline-block bg-black/40 px-5 py-1 rounded-sm">
+            <span className="inline-block bg-black/40 px-3 md:px-5 py-0.5 md:py-1 rounded-sm">
               {title1}
             </span>
           </motion.h1>
 
           {/* Animated title - line 2 with accent */}
           <motion.h1
-            className="font-playfair text-4xl md:text-6xl lg:text-7xl font-bold mb-8 leading-tight"
+            className="font-playfair text-4xl md:text-6xl lg:text-7xl font-bold mb-6 md:mb-8 leading-tight"
             variants={titleVariants}
           >
-            <span className="inline-block text-accent bg-black/40 px-5 py-1 rounded-sm">
+            <span className="inline-block text-accent bg-black/40 px-3 md:px-5 py-0.5 md:py-1 rounded-sm">
               {title2}
             </span>
           </motion.h1>

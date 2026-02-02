@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Menu, X } from "lucide-react";
 import { useState, useEffect } from "react";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 interface HeaderProps {
   currentPath: string;
@@ -9,6 +10,7 @@ interface HeaderProps {
 const Header = ({ currentPath }: HeaderProps) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [scrollProgress, setScrollProgress] = useState(0);
+  const isMobile = useIsMobile();
 
   const isHome = currentPath === "/";
   const isActive = (path: string) => currentPath === path;
@@ -55,9 +57,11 @@ const Header = ({ currentPath }: HeaderProps) => {
           <a href="/" className="flex flex-col relative z-10 py-2">
             <div className="relative inline-block">
               <span
-                className="font-cormorant font-semibold tracking-wide transition-all duration-300 text-white drop-shadow-lg"
+                className={`font-cormorant font-semibold tracking-wide transition-all duration-300 ${
+                  isHome ? "text-white drop-shadow-lg" : "text-foreground"
+                }`}
                 style={{
-                  fontSize: `${34 - scrollProgress * 12}px`,
+                  fontSize: `${(isMobile ? 22 : 34) - scrollProgress * (isMobile ? 6 : 12)}px`,
                   letterSpacing: '0.02em',
                 }}
               >
@@ -69,7 +73,7 @@ const Header = ({ currentPath }: HeaderProps) => {
                 style={{
                   bottom: `-${4 + scrollProgress * 2}px`,
                   opacity: 1 - scrollProgress * 0.3,
-                  transform: `scaleX(${0.7 + scrollProgress * 0.1})`,
+                  transform: `scaleX(${(isMobile ? 0.55 : 0.7) + scrollProgress * 0.1})`,
                 }}
               >
                 {/* Left diamond */}
@@ -127,7 +131,7 @@ const Header = ({ currentPath }: HeaderProps) => {
                   : "bg-accent text-accent-foreground hover:bg-accent/90"
               }`}
             >
-              <a href="/contact">Client Portal</a>
+              <a href="/portal">Client Portal</a>
             </Button>
           </nav>
 
@@ -175,7 +179,7 @@ const Header = ({ currentPath }: HeaderProps) => {
                     : "bg-accent text-accent-foreground hover:bg-accent/90"
                 }`}
               >
-                <a href="/contact" onClick={() => setMobileMenuOpen(false)}>
+                <a href="/portal" onClick={() => setMobileMenuOpen(false)}>
                   Client Portal
                 </a>
               </Button>
