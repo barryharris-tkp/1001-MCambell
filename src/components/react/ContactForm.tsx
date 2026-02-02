@@ -143,6 +143,10 @@ const ContactForm = () => {
               />
             </div>
 
+            <div className="rounded-md bg-destructive/10 border border-destructive/20 px-4 py-3 text-sm text-destructive">
+              <strong>Privacy Notice:</strong> Do not include Social Security numbers, bank account numbers, or other sensitive personal information in this form. Please use our secure Client Portal to share confidential documents.
+            </div>
+
             <Button type="submit" size="lg" className="w-full md:w-auto" disabled={isSubmitting}>
               {isSubmitting ? (
                 <>Sending... <Loader2 className="ml-2 animate-spin" /></>
