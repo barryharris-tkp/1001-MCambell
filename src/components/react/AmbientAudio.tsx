@@ -1,11 +1,11 @@
 import { useState, useRef, useEffect, useCallback } from "react";
-import { Volume, Volume1, Volume2, VolumeX, Flower2 } from "lucide-react";
+import { VolumeX, Volume2, Flower2 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Slider } from "@/components/ui/slider";
 import { cn } from "@/lib/utils";
 
 const MEDITATION_DURATION = 30_000;
 const RAMP_DURATION = 5_000; // volume fade-in over 5 seconds
+const FIXED_VOLUME = 0.3; // 30% — safe default level
 
 // Pill dimensions
 const PILL_W = 104;
@@ -83,8 +83,6 @@ function CountdownRing({ progress }: { progress: number }) {
 
 const AmbientAudio = () => {
   const [isPlaying, setIsPlaying] = useState(false);
-  const [volume, setVolume] = useState(30);
-  const [showVolumeSlider, setShowVolumeSlider] = useState(false);
   const [showMeditationHint, setShowMeditationHint] = useState(false);
   const [isMeditating, setIsMeditating] = useState(false);
   const [meditationProgress, setMeditationProgress] = useState(0);
@@ -94,46 +92,23 @@ const AmbientAudio = () => {
   const meditationStartRef = useRef<number>(0);
   const volumeRampRef = useRef<number | null>(null);
   const rampStartRef = useRef<number>(0);
+  const prevMeditatingRef = useRef(false);
 
   useEffect(() => {
     if (audioRef.current) {
       audioRef.current.loop = true;
-      audioRef.current.volume = volume / 100;
+      audioRef.current.volume = FIXED_VOLUME;
     }
   }, []);
-
-  useEffect(() => {
-    if (audioRef.current && volumeRampRef.current === null) {
-      audioRef.current.volume = volume / 100;
-    }
-  }, [volume]);
 
   const toggleAudio = () => {
     if (audioRef.current) {
       if (isPlaying) {
         audioRef.current.pause();
-        setShowVolumeSlider(false);
       } else {
         audioRef.current.play();
-        setShowVolumeSlider(true);
       }
       setIsPlaying(!isPlaying);
-    }
-  };
-
-  const handleVolumeChange = (value: number[]) => {
-    setVolume(value[0]);
-  };
-
-  const getVolumeIcon = () => {
-    if (!isPlaying || volume === 0) {
-      return <VolumeX className="h-5 w-5 text-muted-foreground" />;
-    } else if (volume <= 33) {
-      return <Volume className="h-5 w-5 text-primary" />;
-    } else if (volume <= 66) {
-      return <Volume1 className="h-5 w-5 text-primary" />;
-    } else {
-      return <Volume2 className="h-5 w-5 text-primary" />;
     }
   };
 
@@ -146,7 +121,6 @@ const AmbientAudio = () => {
 
   const rampVolumeUp = useCallback(() => {
     if (!audioRef.current) return;
-    const targetVolume = volume / 100;
     audioRef.current.volume = 0;
     rampStartRef.current = Date.now();
 
@@ -157,7 +131,7 @@ const AmbientAudio = () => {
       }
       const elapsed = Date.now() - rampStartRef.current;
       const t = Math.min(elapsed / RAMP_DURATION, 1);
-      audioRef.current.volume = t * targetVolume;
+      audioRef.current.volume = t * FIXED_VOLUME;
 
       if (t < 1) {
         volumeRampRef.current = requestAnimationFrame(tick);
@@ -167,20 +141,20 @@ const AmbientAudio = () => {
     };
 
     volumeRampRef.current = requestAnimationFrame(tick);
-  }, [volume]);
+  }, []);
 
   const endMeditation = useCallback(() => {
     setIsMeditating(false);
     setMeditationProgress(0);
     cancelVolumeRamp();
     if (audioRef.current) {
-      audioRef.current.volume = volume / 100;
+      audioRef.current.volume = FIXED_VOLUME;
     }
     if (meditationTimerRef.current !== null) {
       cancelAnimationFrame(meditationTimerRef.current);
       meditationTimerRef.current = null;
     }
-  }, [cancelVolumeRamp, volume]);
+  }, [cancelVolumeRamp]);
 
   const startMeditation = useCallback(() => {
     // Auto-start audio if not playing, with volume ramp
@@ -188,7 +162,6 @@ const AmbientAudio = () => {
       audioRef.current.volume = 0;
       audioRef.current.play();
       setIsPlaying(true);
-      setShowVolumeSlider(true);
       rampVolumeUp();
     }
 
@@ -222,43 +195,71 @@ const AmbientAudio = () => {
     }
   }, [isMeditating, endMeditation, startMeditation]);
 
-  // Hide/show hero content when meditation state changes
+  // Suck-in / blow-out hero content when meditation state changes
   useEffect(() => {
     const content = document.getElementById("hero-content");
     const scroll = document.getElementById("hero-scroll-indicator");
+    const pill = containerRef.current;
     const targets = [content, scroll].filter(Boolean) as HTMLElement[];
 
-    for (const el of targets) {
-      el.style.transition = "opacity 0.6s ease";
-      el.style.opacity = isMeditating ? "0" : "1";
-      el.style.pointerEvents = isMeditating ? "none" : "";
+    if (!pill || targets.length === 0) return;
+
+    const wasJustMeditating = prevMeditatingRef.current && !isMeditating;
+    prevMeditatingRef.current = isMeditating;
+
+    const pillRect = pill.getBoundingClientRect();
+    const pillCenterX = pillRect.left + pillRect.width / 2;
+    const pillCenterY = pillRect.top + pillRect.height / 2;
+
+    if (isMeditating) {
+      // --- SUCK IN ---
+      for (const el of targets) {
+        const elRect = el.getBoundingClientRect();
+        const elCenterX = elRect.left + elRect.width / 2;
+        const elCenterY = elRect.top + elRect.height / 2;
+        const dx = pillCenterX - elCenterX;
+        const dy = pillCenterY - elCenterY;
+
+        el.style.transition =
+          "transform 0.7s cubic-bezier(0.5, 0, 0.75, 0), opacity 0.7s cubic-bezier(0.5, 0, 0.75, 0)";
+        el.style.transform = `translate(${dx}px, ${dy}px) scale(0)`;
+        el.style.opacity = "0";
+        el.style.pointerEvents = "none";
+      }
+    } else if (wasJustMeditating) {
+      // --- BLOW OUT ---
+      for (const el of targets) {
+        const elRect = el.getBoundingClientRect();
+        const elCenterX = elRect.left + elRect.width / 2;
+        const elCenterY = elRect.top + elRect.height / 2;
+        const dx = pillCenterX - elCenterX;
+        const dy = pillCenterY - elCenterY;
+
+        // Snap to pill position instantly (no transition)
+        el.style.transition = "none";
+        el.style.transform = `translate(${dx}px, ${dy}px) scale(0)`;
+        el.style.opacity = "0";
+
+        // Next frame: animate outward
+        requestAnimationFrame(() => {
+          el.style.transition =
+            "transform 0.7s cubic-bezier(0.2, 1, 0.3, 1), opacity 0.5s ease-out";
+          el.style.transform = "translate(0, 0) scale(1)";
+          el.style.opacity = "1";
+          el.style.pointerEvents = "";
+        });
+      }
     }
 
     return () => {
       for (const el of targets) {
         el.style.transition = "";
+        el.style.transform = "";
         el.style.opacity = "1";
         el.style.pointerEvents = "";
       }
     };
   }, [isMeditating]);
-
-  // Click-outside handler to dismiss the volume slider
-  useEffect(() => {
-    if (!showVolumeSlider) return;
-
-    const handleMouseDown = (e: MouseEvent) => {
-      if (
-        containerRef.current &&
-        !containerRef.current.contains(e.target as Node)
-      ) {
-        setShowVolumeSlider(false);
-      }
-    };
-
-    document.addEventListener("mousedown", handleMouseDown);
-    return () => document.removeEventListener("mousedown", handleMouseDown);
-  }, [showVolumeSlider]);
 
   // Cleanup on unmount
   useEffect(() => {
@@ -275,6 +276,7 @@ const AmbientAudio = () => {
       for (const el of [content, scroll]) {
         if (el) {
           el.style.transition = "";
+          el.style.transform = "";
           el.style.opacity = "1";
           el.style.pointerEvents = "";
         }
@@ -331,31 +333,6 @@ const AmbientAudio = () => {
           )}
         </AnimatePresence>
 
-        {/* Volume slider — aligned above the left (audio) half */}
-        <AnimatePresence>
-          {showVolumeSlider && isPlaying && (
-            <motion.div
-              initial={{ opacity: 0, y: 10, scale: 0.9 }}
-              animate={{ opacity: 1, y: 0, scale: 1 }}
-              exit={{ opacity: 0, y: 10, scale: 0.9 }}
-              transition={{ duration: 0.2 }}
-              className="mr-[52px] glass-card rounded-full px-3 py-4 flex flex-col items-center"
-            >
-              <Slider
-                orientation="vertical"
-                value={[volume]}
-                onValueChange={handleVolumeChange}
-                max={100}
-                step={1}
-                className="h-24"
-              />
-              <span className="text-xs text-muted-foreground mt-2">
-                {volume}%
-              </span>
-            </motion.div>
-          )}
-        </AnimatePresence>
-
         {/* Pill button */}
         <div className="relative">
           {isMeditating && <CountdownRing progress={meditationProgress} />}
@@ -372,7 +349,11 @@ const AmbientAudio = () => {
                 isPlaying ? "Mute ambient sound" : "Play ambient sound"
               }
             >
-              {getVolumeIcon()}
+              {isPlaying ? (
+                <Volume2 className="h-5 w-5 text-primary" />
+              ) : (
+                <VolumeX className="h-5 w-5 text-muted-foreground" />
+              )}
             </motion.button>
 
             {/* Divider */}
